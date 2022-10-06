@@ -1,0 +1,1 @@
+Get-Content $PSScriptRoot\WindowsPowershell\Microsoft.Powershell_profile.ps1 > $PROFILE
