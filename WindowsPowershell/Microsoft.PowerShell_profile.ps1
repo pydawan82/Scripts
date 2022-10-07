@@ -52,10 +52,6 @@ function Invoke-Environment {
         } }
 }
 
-function watch {
-    python $PY_SCRIPTS\watch.py @Args
-}
-
 # Custom Aliases
 
 # Init VC vars
