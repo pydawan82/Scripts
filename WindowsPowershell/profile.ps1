@@ -1,6 +1,3 @@
-# Vars
-$PY_SCRIPTS = "$env:USERPROFILE\Documents\scripts\Python Scripts"
-
 # Custom Functions
 
 function hexdump {
@@ -12,10 +9,11 @@ function view {
 }
 
 function prompt {
+    $CWD = ([String] $(Get-Location)).replace($env:USERPROFILE, "~")
     $CSI = [char] 0x1b
     "$CSI[91m$($env:USERNAME)" +
     "@$($env:ComputerName)" +
-    "$CSI[0m:$CSI[33m$($executionContext.SessionState.Path.CurrentLocation)$CSI[0m`$ "
+    "$CSI[0m:$CSI[33m$CWD$CSI[0m`$ "
 }
 
 <#
