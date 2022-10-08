@@ -16,7 +16,7 @@ Run those scripts to install everything:
 
 Windows:
 ```powershell
-./install.ps1
+.\install.ps1
 ```
 
 Linux:
