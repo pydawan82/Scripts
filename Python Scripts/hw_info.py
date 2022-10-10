@@ -52,15 +52,16 @@ def progress_bar(
         style = utilization_color(value / max_value)
     complete_length = round(value / max_value * length)
     empty_length = length - complete_length
+    rest = (value / max_value * length) % 1
 
-    if not empty_length:
-        complete_length += 1
-    if not complete_length:
-        empty_length += 1
+    bar = char * complete_length
+    empty_bar = empty_char * empty_length
+    if bar and rest < 0.5:
+        bar = bar[:-1] + '╸'
+    elif empty_bar:
+        empty_bar = '╺' + empty_bar[1:]
 
-    return f'\
-\033[{style}m{char * (complete_length-1)}{"╸" if complete_length and empty_length  else ""}\
-\033[{empty_style}m{"╺" if complete_length and empty_length else ""}{empty_char * (empty_length - 1)}\033[0m'
+    return f'\033[{style}m{bar}\033[{empty_style}m{empty_bar}\033[0m'
 
 
 def exp_decay_update(self, attr: str, value: Number, weight: float = 0.9) -> None:
