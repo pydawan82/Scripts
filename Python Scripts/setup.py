@@ -6,7 +6,7 @@ setup(
     entry_points={
         'console_scripts': [
             'watch=pdwnutil.watch:main',
-            'hw_info=pdwnutil.hw_info:main'
+            'hw-info=pdwnutil.hw_info:main'
         ]
     },
     install_requires=['GPUtil', 'psutil', 'py-cpuinfo'],
