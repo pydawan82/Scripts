@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from functools import partial
 from math import ceil
 from numbers import Number
+from typing import List
 
 import cpuinfo
 import GPUtil as gputil
@@ -142,7 +143,7 @@ class GpuInfo:
         exp_decay_update(self, 'utilization', gpu.load)
 
     @staticmethod
-    def all() -> list['GpuInfo']:
+    def all() -> List['GpuInfo']:
         return [GpuInfo(i, gpu) for i, gpu in enumerate(gputil.getGPUs())]
 
     def __str__(self) -> str:
@@ -153,7 +154,7 @@ class GpuInfo:
 \x1b[1;37mUtilization \x1b[0m{progress_bar(self.utilization)} {self.utilization*100:2.0f}%"""
 
 
-def display_info(cpus: list[CpuInfo], gpus: list[GpuInfo]) -> None:
+def display_info(cpus: List[CpuInfo], gpus: List[GpuInfo]) -> None:
 
     for cpu in cpus:
         cpu.update()
@@ -164,7 +165,7 @@ def display_info(cpus: list[CpuInfo], gpus: list[GpuInfo]) -> None:
         print(gpu)
 
 
-def parse_args(args: list[str]) -> float:
+def parse_args(args: List[str]) -> float:
     parse = argparse.ArgumentParser()
     parse.add_argument('-n', type=float, default=1,
                        help='Update interval in seconds')

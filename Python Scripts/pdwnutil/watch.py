@@ -3,7 +3,7 @@ import sys
 import time
 from argparse import ArgumentParser
 from contextlib import contextmanager
-from typing import Any, Callable
+from typing import Any, Callable, List, Tuple
 
 CSI = '\x1b['
 ALT_SCR = CSI + '?1049h'
@@ -36,7 +36,7 @@ def hide_cursor():
         print(CSI + '?25h', end='')
 
 
-def parse_args(args: list[str]) -> tuple[list[str], float, bool]:
+def parse_args(args: List[str]) -> Tuple[list[str], float, bool]:
     parser = ArgumentParser('watch')
     parser.add_argument(
         '-n', type=float, help='Delay in seconds, default 1s', default=1.0)
@@ -52,7 +52,7 @@ def parse_args(args: list[str]) -> tuple[list[str], float, bool]:
     return ns.command, ns.n, ns.safe
 
 
-def display_safe(command: list[str], delay: float):
+def display_safe(command: List[str], delay: float):
     print(CUP_00 + ED_ALL, end='')
     command()
 
