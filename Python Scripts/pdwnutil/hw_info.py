@@ -9,7 +9,7 @@ import cpuinfo
 import GPUtil as gputil
 import psutil
 
-import watch
+import pdwnutil.watch as watch
 
 
 def temp_color(temp: float) -> str:

@@ -1,12 +1,12 @@
 from setuptools import setup
 
 setup(
-    name='pydwn_utils',
+    name='pdwnutil',
     version='0.0.2',
     entry_points={
         'console_scripts': [
-            'watch=watch:main',
-            'hw_info=hw_info:main'
+            'watch=pdwnutil.watch:main',
+            'hw_info=pdwnutil.hw_info:main'
         ]
     },
     install_requires=['GPUtil', 'psutil', 'py-cpuinfo'],
