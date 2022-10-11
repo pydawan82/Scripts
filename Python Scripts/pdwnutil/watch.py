@@ -36,7 +36,7 @@ def hide_cursor():
         print(CSI + '?25h', end='')
 
 
-def parse_args(args: List[str]) -> Tuple[list[str], float, bool]:
+def parse_args(args: List[str]) -> Tuple[List[str], float, bool]:
     parser = ArgumentParser('watch')
     parser.add_argument(
         '-n', type=float, help='Delay in seconds, default 1s', default=1.0)
