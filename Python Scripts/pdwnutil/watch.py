@@ -52,7 +52,7 @@ def parse_args(args: List[str]) -> Tuple[List[str], float, bool]:
     return ns.command, ns.n, ns.safe
 
 
-def display_safe(command: list[str], delay: float):
+def display_safe(command: List[str], delay: float):
     print(CUP_00 + ED_ALL, end='')
     command()
 
