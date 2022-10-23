@@ -1,6 +1,7 @@
 cd $(dirname $0)
 
-cp bash/.bashrc ~/.bashrc
+cp bash/.bashrc ~
+cp bash/.bash_aliases ~
 
 pip install -e './Python Scripts'
 
