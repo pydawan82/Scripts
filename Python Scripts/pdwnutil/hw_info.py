@@ -111,9 +111,9 @@ class CpuInfo:
 \x1b[1;37mCores       \x1b[0m{self.cores}
 \x1b[1;37mThreads     \x1b[0m{self.threads}
 \x1b[1;37mTemperature \x1b[0m\x1b[{temp_color(self.temperature)}m{('%04.1f' % (self.temperature,)) if self.temperature is not None else 'N/A'}°C\x1b[0m
-\x1b[1;37mFrequency   \x1b[0m{progress_bar(self.frequency, self.max_frequency)} {self.frequency / 1e9:.2f}/{self.max_frequency / 1e9:.2f} GHz
-\x1b[1;37mRAM         \x1b[0m{progress_bar(self.ram, self.max_ram)} {self.ram / 2**30:.2f}/{self.max_ram / 2**30:.2f} GB
-\x1b[1;37mUtilization \x1b[0m{progress_bar(self.utilization)} {self.utilization*100:2.0f}%"""
+\x1b[1;37mFrequency   \x1b[0m{progress_bar(self.frequency, self.max_frequency)} {self.frequency / 1e9:4.2f}/{self.max_frequency / 1e9:4.2f} GHz
+\x1b[1;37mRAM         \x1b[0m{progress_bar(self.ram, self.max_ram)} {self.ram / 2**30:5.2f}/{self.max_ram / 2**30:5.2f} GB
+\x1b[1;37mUtilization \x1b[0m{progress_bar(self.utilization)} {self.utilization*100:3.0f}%"""
 
 
 @dataclass
@@ -150,8 +150,8 @@ class GpuInfo:
         return f"""\
 \x1b[1;4;37m{self.name}\x1b[0m
 \x1b[1;37mTemperature \x1b[0m\x1b[{temp_color(self.temperature)}m{self.temperature:04.1f}°C\x1b[0m
-\x1b[1;37mRAM         \x1b[0m{progress_bar(self.ram, self.max_ram)} {self.ram / 2**30:.2f}/{self.max_ram / 2**30:.2f} GB
-\x1b[1;37mUtilization \x1b[0m{progress_bar(self.utilization)} {self.utilization*100:2.0f}%"""
+\x1b[1;37mRAM         \x1b[0m{progress_bar(self.ram, self.max_ram)} {self.ram / 2**30:5.2f}/{self.max_ram / 2**30:5.2f} GB
+\x1b[1;37mUtilization \x1b[0m{progress_bar(self.utilization)} {self.utilization*100:3.0f}%"""
 
 
 def display_info(cpus: List[CpuInfo], gpus: List[GpuInfo]) -> None:
