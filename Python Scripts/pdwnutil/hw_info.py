@@ -2,7 +2,6 @@ import argparse
 import sys
 from dataclasses import dataclass
 from functools import partial
-from math import ceil
 from numbers import Number
 from typing import List
 
@@ -10,7 +9,7 @@ import cpuinfo
 import GPUtil as gputil
 import psutil
 
-import pdwnutil.watch as watch
+from . import watch
 
 
 def temp_color(temp: float) -> str:
@@ -182,7 +181,7 @@ def main():
     try:
         with watch.hide_cursor():
             watch.watch(partial(display_info, cpus, gpus),
-                        interval, safe=False)
+                        interval)
     except KeyboardInterrupt:
         ...
 
