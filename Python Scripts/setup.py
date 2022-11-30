@@ -12,7 +12,7 @@ if os.name == 'nt':
 
 setup(
     name='pdwnutil',
-    version='0.0.3',
+    version='0.0.4',
     entry_points={
         'console_scripts': scripts
     },

@@ -3,7 +3,7 @@ import sys
 from dataclasses import dataclass
 from functools import partial
 from numbers import Number
-from typing import List
+from typing import List, Optional
 
 import cpuinfo
 import GPUtil as gputil
@@ -63,6 +63,19 @@ def progress_bar(
 
     return f'\033[{style}m{bar}\033[{empty_style}m{empty_bar}\033[0m'
 
+def formatted(value: Optional[Number], format: str) -> str:
+    if value is None:
+        return 'N/A'
+    return format % value
+
+def percent(value: float) -> str:
+    return f'{int(value * 100):3d}%'
+
+def ratio(value: float, max_value: float, decimal: int=0) -> str:
+    max_value_str = f"%.{decimal}f" % max_value
+    value_str = f"%{len(max_value_str)}.{decimal}f" % value
+    return f'{value_str}/{max_value_str}'
+
 
 def exp_decay_update(self, attr: str, value: Number, weight: float = 0.9) -> None:
     if hasattr(self, attr) and getattr(self, attr) is not None:
@@ -104,15 +117,34 @@ class CpuInfo:
             )
         exp_decay_update(self, 'utilization', cpu_usage / 100)
 
+    @property
+    def temperature_info(self) -> str:
+        return f"\x1b[{temp_color(self.temperature)}m{formatted(self.temperature, '%4.1f')}°C"
+
+    @property
+    def frequency_info(self) -> str:
+        return f"{progress_bar(self.frequency, self.max_frequency)} {ratio(self.frequency/1e9, self.max_frequency/1e9, 2)} GHz"
+
+
+    @property
+    def ram_info(self) -> str:
+        return f"{progress_bar(self.ram, self.max_ram)} {ratio(self.frequency/2**30, self.max_frequency/2**30, 2)} GB"
+    
+    @property
+    def utilization_info(self) -> str:
+        return f"{progress_bar(self.utilization)} {percent(self.utilization)}"
+
+
     def __str__(self) -> str:
         return f"""\
 \x1b[1;4;37m{self.name}\x1b[0m
 \x1b[1;37mCores       \x1b[0m{self.cores}
 \x1b[1;37mThreads     \x1b[0m{self.threads}
-\x1b[1;37mTemperature \x1b[0m\x1b[{temp_color(self.temperature)}m{('%04.1f' % (self.temperature,)) if self.temperature is not None else 'N/A'}°C\x1b[0m
-\x1b[1;37mFrequency   \x1b[0m{progress_bar(self.frequency, self.max_frequency)} {self.frequency / 1e9:4.2f}/{self.max_frequency / 1e9:4.2f} GHz
-\x1b[1;37mRAM         \x1b[0m{progress_bar(self.ram, self.max_ram)} {self.ram / 2**30:5.2f}/{self.max_ram / 2**30:5.2f} GB
-\x1b[1;37mUtilization \x1b[0m{progress_bar(self.utilization)} {self.utilization*100:3.0f}%"""
+\x1b[1;37mTemperature \x1b[0m{self.temperature_info}\x1b[0m
+\x1b[1;37mFrequency   \x1b[0m{self.frequency_info}\x1b[0m
+\x1b[1;37mRAM         \x1b[0m{self.ram_info}\x1b[0m
+\x1b[1;37mUtilization \x1b[0m{self.utilization_info}\x1b[0m\
+"""
 
 
 @dataclass
@@ -145,12 +177,25 @@ class GpuInfo:
     def all() -> List['GpuInfo']:
         return [GpuInfo(i, gpu) for i, gpu in enumerate(gputil.getGPUs())]
 
+    @property
+    def temperature_info(self) -> str:
+        return f"\x1b[{temp_color(self.temperature)}m{formatted(self.temperature, '%4.1f')}°C"
+
+    @property
+    def ram_info(self) -> str:
+        return f"{progress_bar(self.ram, self.max_ram)} {ratio(self.ram/2**30, self.max_ram/2**30, 2)} GB"
+
+    @property
+    def utilization_info(self) -> str:
+        return f"{progress_bar(self.utilization)} {percent(self.utilization)}"
+
     def __str__(self) -> str:
         return f"""\
 \x1b[1;4;37m{self.name}\x1b[0m
-\x1b[1;37mTemperature \x1b[0m\x1b[{temp_color(self.temperature)}m{self.temperature:04.1f}°C\x1b[0m
-\x1b[1;37mRAM         \x1b[0m{progress_bar(self.ram, self.max_ram)} {self.ram / 2**30:5.2f}/{self.max_ram / 2**30:5.2f} GB
-\x1b[1;37mUtilization \x1b[0m{progress_bar(self.utilization)} {self.utilization*100:3.0f}%"""
+\x1b[1;37mTemperature \x1b[0m{self.temperature_info}\x1b[0m
+\x1b[1;37mRAM         \x1b[0m{self.ram_info}\x1b[0m
+\x1b[1;37mUtilization \x1b[0m{self.utilization_info}\x1b[0m\
+"""
 
 
 def display_info(cpus: List[CpuInfo], gpus: List[GpuInfo]) -> None:
