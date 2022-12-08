@@ -26,7 +26,7 @@ def temp_color(temp: float) -> str:
 
 
 def utilization_color(utilization: float) -> str:
-    return from_cm('plasma', utilization)
+    return from_cm('jet', utilization)
 
 
 def progress_bar(

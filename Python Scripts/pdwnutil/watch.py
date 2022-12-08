@@ -47,7 +47,7 @@ def parse_args(args: List[str]) -> Tuple[List[str], float]:
     return ns.command, ns.n
 
 
-def display(command: Callable[[], Any], delay: float):
+def display(command: Callable[[], Any]):
     print(CUP_00, end='')
     command()
     print(ED_END, end='')
@@ -58,7 +58,7 @@ def watch(command: Callable[[], Any], delay: float):
         with hide_cursor():
             with redirect_stdout(clear_end_of_line(sys.stdout)):
                 while True:
-                    display(command, delay)
+                    display(command)
                     time.sleep(delay)
 
 
