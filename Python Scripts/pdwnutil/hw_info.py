@@ -11,35 +11,22 @@ import psutil
 
 from . import watch
 
+from matplotlib import cm
+
+def from_cm(cm_name: str, value: float) -> str:
+    cmap = cm.get_cmap(cm_name)
+    r, g, b, a = (int(c*255) for c in cmap(value))
+    return f'38;2;{r};{g};{b}'
 
 def temp_color(temp: float) -> str:
     if temp is None:
-        return '95'
-    if temp < 30:
-        return '96'
-    elif temp < 40:
-        return '92'
-    elif temp < 50:
-        return '93'
-    elif temp < 60:
-        return '33'
-    elif temp < 70:
-        return '31'
-    else:
-        return '91'
+        return '97'
+
+    return from_cm('cool', temp / 100)
 
 
 def utilization_color(utilization: float) -> str:
-    if utilization < 0.2:
-        return '96'
-    elif utilization < 0.4:
-        return '92'
-    elif utilization < 0.6:
-        return '93'
-    elif utilization < 0.8:
-        return '33'
-    else:
-        return '91'
+    return from_cm('plasma', utilization)
 
 
 def progress_bar(
