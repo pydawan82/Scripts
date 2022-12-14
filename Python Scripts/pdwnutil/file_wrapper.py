@@ -1,6 +1,6 @@
 from typing import TextIO
 
-END = '\x1b[0K'
+END = '\n'
 EL_END = '\x1b[0K\n'
 
 class clear_end_of_line:
