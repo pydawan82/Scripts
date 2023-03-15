@@ -115,7 +115,7 @@ class CpuInfo:
 
     @property
     def ram_info(self) -> str:
-        return f"{progress_bar(self.ram, self.max_ram)} {ratio(self.frequency/2**30, self.max_frequency/2**30, 2)} GB"
+        return f"{progress_bar(self.ram, self.max_ram)} {ratio(self.ram/2**30, self.max_ram/2**30, 2)} GB"
     
     @property
     def utilization_info(self) -> str:
