@@ -8,7 +8,7 @@ scripts = [
 if os.name == 'nt':
     scripts += [
         'watch=pdwnutil.watch:main'
-        ]
+    ]
 
 setup(
     name='pdwnutil',
@@ -16,5 +16,5 @@ setup(
     entry_points={
         'console_scripts': scripts
     },
-    install_requires=['GPUtil', 'psutil', 'py-cpuinfo'],
+    install_requires=['GPUtil', 'psutil', 'py-cpuinfo', 'matplotlib'],
 )
