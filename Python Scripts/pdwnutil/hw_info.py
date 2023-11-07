@@ -73,7 +73,7 @@ def exp_decay_update(self, attr: str, value: Number, weight: float = 0.9) -> Non
 @dataclass
 class CpuInfo:
     frequency: float  # Hz
-    ram: float  # B
+    ram: int  # B
     utilization: float   # Range: 0-1
 
     name: str = cpuinfo.get_cpu_info()['brand_raw']
@@ -81,7 +81,7 @@ class CpuInfo:
     threads: int = psutil.cpu_count(logical=True)
 
     max_frequency: float = psutil.cpu_freq()[2] * 1e6  # Hz
-    max_ram: float = psutil.virtual_memory().total  # B
+    max_ram: int = psutil.virtual_memory().total  # B
 
     temperature: float = None  # °C
 
